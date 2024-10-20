@@ -39,6 +39,8 @@ type DaemonsParams<
   ready: Ready
   requires: Exclude<Ids, Id>[]
   sigtermTimeout?: number
+  onStdout?: (chunk: Buffer | string | any) => void
+  onStderr?: (chunk: Buffer | string | any) => void
 }
 
 type ErrorDuplicateId<Id extends string> = `The id '${Id}' is already used`
@@ -117,6 +119,8 @@ export class Daemons<Manifest extends T.SDKManifest, Ids extends string>
       Id,
     options: DaemonsParams<Manifest, Ids, Command, Id>,
   ) {
+    options.onStdout ??= (chunk) => console.info(chunk.toString())
+    options.onStderr ??= (chunk) => console.error(chunk.toString())
     const daemonIndex = this.daemons.length
     const daemon = Daemon.of()(this.effects, options.image, options.command, {
       ...options,
