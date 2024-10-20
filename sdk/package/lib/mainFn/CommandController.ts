@@ -43,8 +43,8 @@ export class CommandController {
           | undefined
         cwd?: string | undefined
         user?: string | undefined
-        onStdout?: (x: Buffer) => null
-        onStderr?: (x: Buffer) => null
+        onStdout?: (chunk: Buffer | string | any) => void
+        onStderr?: (chunk: Buffer | string | any) => void
       },
     ) => {
       const commands = splitCommand(command)
@@ -72,6 +72,10 @@ export class CommandController {
           env: options.env,
         })
       }
+
+      if (options.onStdout) childProcess.stdout.on("data", options.onStdout)
+      if (options.onStderr) childProcess.stderr.on("data", options.onStderr)
+
       const state = { exited: false }
       const answer = new Promise<null>((resolve, reject) => {
         childProcess.on("exit", (code) => {
