@@ -169,12 +169,8 @@ Package: podman
 Pin: version 4.5.1*
 Pin-Priority: 600
 
-Package: firmware-realtek
-Pin: version 20241210
-Pin-Priority: 600
-
-Package: r8168-dkms
-Pin: version 8.054.*
+Package: firmware-realtek*
+Pin: release n=trixie
 Pin-Priority: 600
 EOF
 
@@ -185,7 +181,7 @@ dpkg-deb --fsys-tarfile $base_dir/deb/${IMAGE_BASENAME}.deb | tar --to-stdout -x
 
 ## Firmware
 if [ "$NON_FREE" = 1 ]; then
-	echo 'firmware-iwlwifi firmware-misc-nonfree firmware-brcm80211 firmware-realtek firmware-atheros firmware-libertas firmware-amd-graphics r8168-dkms' > config/package-lists/nonfree.list.chroot
+	echo 'firmware-iwlwifi firmware-misc-nonfree firmware-brcm80211 firmware-realtek firmware-atheros firmware-libertas firmware-amd-graphics' > config/package-lists/nonfree.list.chroot
 fi
 
 if [ "${IB_TARGET_PLATFORM}" = "raspberrypi" ]; then
