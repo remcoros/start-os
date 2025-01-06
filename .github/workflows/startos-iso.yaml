@@ -42,6 +42,7 @@ on:
     branches:
       - master
       - next/*
+      - feat/*
   pull_request:
     branches:
       - master
@@ -89,7 +90,9 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Make
-        run: make ARCH=${{ matrix.arch }} compiled-${{ matrix.arch }}.tar
+        run: |
+          cargo update -p time --manifest-path=core/Cargo.toml
+          make ARCH=${{ matrix.arch }} compiled-${{ matrix.arch }}.tar
 
       - uses: actions/upload-artifact@v3
         with:

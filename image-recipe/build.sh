@@ -224,9 +224,9 @@ if [ "${IB_TARGET_PLATFORM}" != "raspberrypi" ]; then
 	/usr/lib/startos/scripts/enable-kiosk
 fi
 
-if ! [[ "${IB_OS_ENV}" =~ (^|-)dev($|-) ]]; then
-	passwd -l start9
-fi
+#if ! [[ "${IB_OS_ENV}" =~ (^|-)dev($|-) ]]; then
+#	passwd -l start9
+#fi
 
 EOF
 
