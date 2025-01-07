@@ -158,7 +158,7 @@ echo "deb [arch=${IB_TARGET_ARCH} signed-by=/etc/apt/trusted.gpg.d/tor.key.gpg] 
 curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o config/archives/docker.key
 echo "deb [arch=${IB_TARGET_ARCH} signed-by=/etc/apt/trusted.gpg.d/docker.key.gpg] https://download.docker.com/linux/debian ${IB_SUITE} stable" > config/archives/docker.list
 
-echo "deb https://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware" > config/archives/trixie.list
+#echo "deb https://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware" > config/archives/trixie.list
 echo "deb [check-valid-until=no] https://snapshot.debian.org/archive/debian/20230922T024957Z trixie main contrib" > config/archives/podman.list
 cat > config/archives/trixie.pref <<- EOF
 Package: *
@@ -169,8 +169,8 @@ Package: podman
 Pin: version 4.5.1*
 Pin-Priority: 600
 
-Package: dkms r8168-dkms
-Pin: release n=trixie
+Package: firmware-realtek
+Pin: release a=bookworm-backports
 Pin-Priority: 600
 EOF
 
@@ -181,7 +181,7 @@ dpkg-deb --fsys-tarfile $base_dir/deb/${IMAGE_BASENAME}.deb | tar --to-stdout -x
 
 ## Firmware
 if [ "$NON_FREE" = 1 ]; then
-	echo 'firmware-iwlwifi firmware-misc-nonfree firmware-brcm80211 firmware-realtek firmware-atheros firmware-libertas firmware-amd-graphics r8168-dkms' > config/package-lists/nonfree.list.chroot
+	echo 'firmware-iwlwifi firmware-misc-nonfree firmware-brcm80211 firmware-realtek firmware-atheros firmware-libertas firmware-amd-graphics' > config/package-lists/nonfree.list.chroot
 fi
 
 if [ "${IB_TARGET_PLATFORM}" = "raspberrypi" ]; then
