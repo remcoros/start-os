@@ -158,8 +158,7 @@ echo "deb [arch=${IB_TARGET_ARCH} signed-by=/etc/apt/trusted.gpg.d/tor.key.gpg] 
 curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o config/archives/docker.key
 echo "deb [arch=${IB_TARGET_ARCH} signed-by=/etc/apt/trusted.gpg.d/docker.key.gpg] https://download.docker.com/linux/debian ${IB_SUITE} stable" > config/archives/docker.list
 
-echo "deb https://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware" > config/archives/trixie.list
-echo "deb [check-valid-until=no] https://snapshot.debian.org/archive/debian/20230922T024957Z trixie main contrib" > config/archives/podman.list
+echo "deb [check-valid-until=no] https://snapshot.debian.org/archive/debian/20230922T024957Z trixie main contrib" > config/archives/trixie.list
 cat > config/archives/trixie.pref <<- EOF
 Package: *
 Pin: release n=trixie
@@ -170,7 +169,7 @@ Pin: version 4.5.1*
 Pin-Priority: 600
 
 Package: dkms r8168-dkms
-Pin: release n=trixie
+Pin: release n=bookworm-backports
 Pin-Priority: 600
 EOF
 
