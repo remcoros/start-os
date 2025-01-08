@@ -201,7 +201,7 @@ rm -rf /deb
 if [ "${IB_SUITE}" = bookworm ]; then
 	echo 'deb https://deb.debian.org/debian/ bullseye main' > /etc/apt/sources.list.d/bullseye.list
 	apt-get update
-	apt-get install -y postgresql-13
+	apt-get install -y postgresql-13 dkms r8168-dkms
 	rm /etc/apt/sources.list.d/bullseye.list
 	apt-get update
 fi
