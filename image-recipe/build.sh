@@ -178,7 +178,7 @@ dpkg-deb --fsys-tarfile $base_dir/deb/${IMAGE_BASENAME}.deb | tar --to-stdout -x
 
 ## Firmware
 if [ "$NON_FREE" = 1 ]; then
-	echo 'firmware-iwlwifi firmware-misc-nonfree firmware-brcm80211 firmware-realtek firmware-atheros firmware-libertas firmware-amd-graphics' > config/package-lists/nonfree.list.chroot
+	echo 'firmware-iwlwifi firmware-misc-nonfree firmware-brcm80211 firmware-realtek firmware-atheros firmware-libertas firmware-amd-graphics dkms r8168-dkms' > config/package-lists/nonfree.list.chroot
 fi
 
 if [ "${IB_TARGET_PLATFORM}" = "raspberrypi" ]; then
@@ -201,7 +201,7 @@ rm -rf /deb
 if [ "${IB_SUITE}" = bookworm ]; then
 	echo 'deb https://deb.debian.org/debian/ bullseye main' > /etc/apt/sources.list.d/bullseye.list
 	apt-get update
-	apt-get install -y postgresql-13 dkms r8168-dkms
+	apt-get install -y postgresql-13
 	rm /etc/apt/sources.list.d/bullseye.list
 	apt-get update
 fi

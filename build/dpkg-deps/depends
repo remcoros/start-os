@@ -35,6 +35,7 @@ nvme-cli
 nyx
 openssh-server
 podman
+fuse-overlayfs
 postgresql
 psmisc
 qemu-guest-agent
