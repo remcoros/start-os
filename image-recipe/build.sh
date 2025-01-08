@@ -161,18 +161,9 @@ echo "deb [arch=${IB_TARGET_ARCH} signed-by=/etc/apt/trusted.gpg.d/docker.key.gp
 curl -fsSL https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/unstable/Debian_Testing/Release.key | gpg --dearmor -o config/archives/podman.key
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/trusted.gpg.d/podman.key.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/unstable/Debian_Testing/ /" > config/archives/podman.list
 
-echo "deb https://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware" > config/archives/trixie.list
-cat > config/archives/trixie.pref <<- EOF
-Package: *
-Pin: release n=trixie
-Pin-Priority: 100
-
+cat > config/archives/podman.pref <<- EOF
 Package: podman
 Pin: version 4.5.1*
-Pin-Priority: 600
-
-Package: firmware-realtek r8168-dkms
-Pin: release n=trixie
 Pin-Priority: 600
 EOF
 
