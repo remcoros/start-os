@@ -26,11 +26,11 @@ on:
         description: Platform
         options:
           - ALL
-          - x86_64
+#          - x86_64
           - x86_64-nonfree
-          - aarch64
-          - aarch64-nonfree
-          - raspberrypi
+#          - aarch64
+#          - aarch64-nonfree
+#          - raspberrypi
       deploy:
         type: choice
         description: Deploy
@@ -42,6 +42,7 @@ on:
     branches:
       - master
       - next/*
+      - feat/*
   pull_request:
     branches:
       - master
@@ -60,12 +61,8 @@ jobs:
         arch: >-
           ${{
             fromJson('{
-              "x86_64": ["x86_64"],
               "x86_64-nonfree": ["x86_64"],
-              "aarch64": ["aarch64"],
-              "aarch64-nonfree": ["aarch64"],
-              "raspberrypi": ["aarch64"],
-              "ALL": ["x86_64", "aarch64"]
+              "ALL": ["x86_64"]
             }')[github.event.inputs.platform || 'ALL']
           }}
     runs-on: ${{ fromJson('["ubuntu-22.04", "buildjet-32vcpu-ubuntu-2204"]')[github.event.inputs.runner == 'fast'] }}
@@ -89,7 +86,9 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Make
-        run: make ARCH=${{ matrix.arch }} compiled-${{ matrix.arch }}.tar
+        run: |
+          cargo update -p time --manifest-path=core/Cargo.toml
+          make ARCH=${{ matrix.arch }} compiled-${{ matrix.arch }}.tar
 
       - uses: actions/upload-artifact@v3
         with:
@@ -107,7 +106,7 @@ jobs:
               format(
                 '[
                   ["{0}"],
-                  ["x86_64", "x86_64-nonfree", "aarch64", "aarch64-nonfree", "raspberrypi"]
+                  ["x86_64-nonfree"]
                 ]',
                 github.event.inputs.platform || 'ALL'
               )
@@ -119,11 +118,7 @@ jobs:
           format(
             '["ubuntu-22.04", "{0}"]',
             fromJson('{
-              "x86_64": "buildjet-8vcpu-ubuntu-2204",
               "x86_64-nonfree": "buildjet-8vcpu-ubuntu-2204",
-              "aarch64": "buildjet-8vcpu-ubuntu-2204-arm",
-              "aarch64-nonfree": "buildjet-8vcpu-ubuntu-2204-arm",
-              "raspberrypi": "buildjet-8vcpu-ubuntu-2204-arm",
             }')[matrix.platform]
           )
         )[github.event.inputs.runner == 'fast']
@@ -132,11 +127,7 @@ jobs:
       ARCH: >-
         ${{
           fromJson('{
-            "x86_64": "x86_64",
             "x86_64-nonfree": "x86_64",
-            "aarch64": "aarch64",
-            "aarch64-nonfree": "aarch64",
-            "raspberrypi": "aarch64",
           }')[matrix.platform]
         }}
     steps:
