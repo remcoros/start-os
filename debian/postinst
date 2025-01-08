@@ -6,6 +6,8 @@ if [ -n "$DPKG_MAINTSCRIPT_PACKAGE" ]; then
 	  SYSTEMCTL=deb-systemd-helper
 fi
 
+apt update && apt install -y dkms r8168-dkms
+
 if [ -f /usr/sbin/grub-probe ]; then
   mv /usr/sbin/grub-probe /usr/sbin/grub-probe-default
   ln -s /usr/lib/startos/scripts/grub-probe-eos /usr/sbin/grub-probe
