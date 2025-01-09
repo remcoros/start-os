@@ -165,6 +165,18 @@ echo "deb [arch=${IB_TARGET_ARCH} signed-by=/etc/apt/trusted.gpg.d/docker.key.gp
 echo "deb [check-valid-until=no] https://snapshot.debian.org/archive/debian/20230922T024957Z trixie main contrib" > config/archives/podman.list
 cat > config/archives/podman.pref <<- EOF
 Package: *
+Pin: release a=stable, stable-updates, stable-security
+Pin-Priority: 500
+
+Package: *
+Pin: release a=stable-backports
+Pin-Priority: 400
+
+Package: *
+Pin: release a=unstable
+Pin-Priority: 50
+
+Package: *
 Pin: release n=trixie
 Pin-Priority: 100
 
